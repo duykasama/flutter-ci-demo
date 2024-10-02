@@ -24,14 +24,15 @@ jobs:
       # - name: analyze source code
       #   run: flutter analyze
 
-      - name: build bundle
-        run: flutter build appbundle --release
+      # - name: build bundle
+      #   run: flutter build appbundle --release
 
       - name: create release
         id: create_release
         uses: actions/create-release@v1
         env: 
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: 'something here'
         with:
           tag_name: 'v1.0.1'
           release_name: 'App version 1.0.1'
