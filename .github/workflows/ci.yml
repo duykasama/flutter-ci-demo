@@ -1,0 +1,35 @@
+name: Build app bundle
+
+on: 
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-artifact:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout source code
+        uses: actions/checkout@v4
+
+      - name: setup flutter sdk
+        uses: flutter-actions/setup-flutter@v3
+        with: 
+          channel: stable
+          version: 3.24.1
+
+      - name: install dependencies
+        run: flutter pub get
+
+      - name: analyze source code
+        run: flutter analyze
+
+      - name: build bundle
+        run: flutter build appbundle --release
+
+      - name: upload artifact to github release
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-deploy
+          path: build/app/outputs/bundle/release/app-release.aab
+          compression-level: 0
