@@ -32,7 +32,7 @@ jobs:
 
       - name: extract tag version
         id: extract_tag
-        run: battila7/get-version-action@v2
+        uses: battila7/get-version-action@v2
 
       - name: create release
         id: create_release
