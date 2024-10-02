@@ -2,7 +2,9 @@ name: Build app bundle
 
 on: 
   push:
-    branches: [ "main" ]
+    tags:
+      - 'v*.*.*'
+    # branches: [ "main" ]
 
 jobs:
   build-artifact:
@@ -28,15 +30,19 @@ jobs:
       # - name: build bundle
       #   run: flutter build appbundle --release
 
+      - name: extract tag version
+        id: extract_tag
+        run: battila7/get-version-action@v2
+
       - name: create release
         id: create_release
         uses: actions/create-release@v1
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: 'v1.0.2'
-          release_name: 'App version 1.0.2'
-          body: 'something here'
+          tag_name: 'v${{ steps.extract_tag.outputs.version-without-v }}'
+          release_name: 'App version ${{ steps.extract_tag.outputs.version-without-v }}'
+          body: 'Release of version ${{ steps.extract_tag.outputs.version-without-v }}'
           draft: false
           prerelease: false
 
