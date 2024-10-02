@@ -7,6 +7,7 @@ on:
 jobs:
   build-artifact:
     runs-on: ubuntu-latest
+    permissions: write-all
 
     steps:
       - name: checkout source code
@@ -31,8 +32,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env: 
-          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_TOKEN: 'something here'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: 'v1.0.1'
           release_name: 'App version 1.0.1'
