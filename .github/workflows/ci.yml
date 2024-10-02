@@ -46,6 +46,7 @@ jobs:
           GITHUB_ACTION: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/app/outputs/bundle/release/app-release.aab
+          asset_path: lib/main.dart
+          # asset_path: build/app/outputs/bundle/release/app-release.aab
           asset_name: vma-release.aab
           asset_content_type: application/vnd.android.package-archive
