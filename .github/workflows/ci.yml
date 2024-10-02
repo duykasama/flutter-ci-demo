@@ -27,9 +27,24 @@ jobs:
       - name: build bundle
         run: flutter build appbundle --release
 
-      - name: upload artifact to github release
-        uses: actions/upload-artifact@v4
+      - name: create release
+        id: create_release
+        uses: actions/create-release@v1
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: app-deploy
-          path: build/app/outputs/bundle/release/app-release.aab
-          compression-level: 0
+          tag_name: 'v1.0.1'
+          release_name: 'App version 1.0.1'
+          body: 'something here'
+          draft: false
+          prerelease: false
+
+      - name: upload release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_ACTION: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/app/outputs/bundle/release/app-release.aab
+          asset_name: vma-release.aab
+          asset_content_type: application/vnd.android.package-archive
